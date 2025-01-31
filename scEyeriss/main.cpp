@@ -8,6 +8,7 @@ using namespace sc_core;
 #include "Definition.h"
 #include "testbench.h"
 #include "LowEyeriss.h"
+#include "scEyeriss.h"
 
 SC_MODULE(SYSTEM) {
 	sc_clock						clk;
@@ -38,7 +39,7 @@ SC_MODULE(SYSTEM) {
 		tb_i->w_rdata(w_rdata);
 		tb_i->addr_ifmpa_in(addr_ifmpa_in);
 		tb_i->ifmap_rdata(ifmap_rdata);
-		`tb_i->layer_done(layer_done);
+		tb_i->layer_done(layer_done);
 		tb_i->ofmap_result(ofmap_result);
 
 		sc_eyeriss_i = new SC_EYERISS("sc_eyeriss_i");

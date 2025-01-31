@@ -16,4 +16,7 @@ void MAC::mac(void) {
 
 	psum = w * in + psum_tmp;
 	psum_tmp_MACtoReg.write(psum);
+
+	if(tracker)
+		tracker->count_mac_op();
 }

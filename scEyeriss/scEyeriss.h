@@ -8,6 +8,8 @@ using namespace sc_dt;
 #include "GLB.h"
 #include "Scheduler.h"
 #include "PE_array.h"
+#include "EnergyTracker.h"
+
 
 SC_MODULE(SC_EYERISS) {
 	sc_in<      bool 	>		clk;
@@ -55,6 +57,7 @@ SC_MODULE(SC_EYERISS) {
 	GLB*				glb_i;
 	SCHEDULER*			scheduler_i;
 	PE_ARRAY*			pe_array_i;
+	EnergyTracker* tracker;
 
 	SC_CTOR(SC_EYERISS) {
 		//Connect ports
@@ -84,6 +87,8 @@ SC_MODULE(SC_EYERISS) {
 		config_i->folding_cf(folding_cf);
 		config_i->propass_cf(propass_cf);
 
+		tracker = new EnergyTracker("tracker");
+
 		glb_i = new GLB("glb_i");
 		glb_i->clk(clk);
 		glb_i->rst(rst);
@@ -110,6 +115,8 @@ SC_MODULE(SC_EYERISS) {
 		glb_i->addr_ifmpa_in(addr_ifmpa_in);
 		glb_i->ifmap_rdata(ifmap_rdata);
 		glb_i->in_vld(in_vld);
+		glb_i->tracker = tracker;
+
 		for (int i = 0; i < filter_height; i++) {
 			glb_i->w_wdata[i](w_wdata[i]);
 		}

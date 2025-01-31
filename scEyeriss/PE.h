@@ -7,6 +7,7 @@ using namespace sc_dt;
 #include "MAC.h"
 #include "Pool.h"
 #include "MUX.h"
+#include "EnergyTracker.h"
 
 SC_MODULE(PE) {
 	sc_in<	  bool		 >		clk;
@@ -31,6 +32,8 @@ SC_MODULE(PE) {
 	MAC*			mac_i;
 	POOL*			pool_i;
 	MUX*			mux_i;
+
+	EnergyTracker* tracker;
 
 	SC_CTOR(PE) {
 		// Connect ports

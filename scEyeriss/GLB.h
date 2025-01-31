@@ -1,5 +1,6 @@
 #pragma once
 #include <systemc>
+#include "EnergyTracker.h"
 using namespace sc_core;
 using namespace sc_dt;
 
@@ -28,16 +29,16 @@ SC_MODULE(GLB) {
 	sc_in< sc_uint<32>>		propass_cf;
 
 	// Request to DRAM
-	sc_out<sc_uint<32>>		addr_w_in;
-	sc_in<  sc_int<8> >		w_rdata;
-	sc_out<sc_uint<32>>		addr_ifmpa_in;
-	sc_in<  sc_int<8> >		ifmap_rdata;
+	sc_out<sc_uint<32>>		addr_w_in; // weight address
+	sc_in<  sc_int<8> >		w_rdata; // weight read data
+	sc_out<sc_uint<32>>		addr_ifmpa_in; // ifmap address
+	sc_in<  sc_int<8> >		ifmap_rdata; // ifmap read data
 
 	sc_out<  bool	  >		in_vld;
-	sc_out< sc_int<8> >		w_wdata[filter_height];
-	sc_out< sc_int<8>>		ifmap_wdata[ifmap_height];
-	sc_in<   bool	  >		out_vld[PE_length][PE_width];
-	sc_in< sc_uint<12>>		ofmap_out[PE_length][PE_width];
+	sc_out< sc_int<8> >		w_wdata[filter_height]; // weight written data
+	sc_out< sc_int<8>>		ifmap_wdata[ifmap_height]; // ifmap written data
+	sc_in<   bool	  >		out_vld[PE_length][PE_width]; // send the data to what PE
+	sc_in< sc_uint<12>>		ofmap_out[PE_length][PE_width]; 
 
 	// Send to testbench
 	sc_out<  bool     >		layer_done;
@@ -52,6 +53,8 @@ SC_MODULE(GLB) {
 	sc_signal< sc_int<8> >*	ifmap			= new sc_signal<sc_int<8>>[(ifmap_height) * (ifmap_width) * (num_channel)];
 	sc_signal<sc_uint<12>>*	ofmap_buf		= new sc_signal<sc_uint<12>>[(ofmap_height) * (ofmap_width) * (num_filter)];
 	sc_signal<sc_uint<12>>*	psum_test_buf	= new sc_signal<sc_uint<12>>[(ofmap_height*num_filter) * (ofmap_width) * (num_channel)];
+
+	EnergyTracker* tracker;
 
 	SC_CTOR(GLB) {
 		SC_CTHREAD(GLB_weight_address, clk.pos());

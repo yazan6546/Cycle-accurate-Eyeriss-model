@@ -5,6 +5,7 @@ using namespace sc_dt;
 
 #include "Definition.h"
 #include "PE.h"
+#include "EnergyTracker.h"
 
 SC_MODULE(PE_ARRAY) {
 	sc_in<    bool 	  >		clk;
@@ -32,6 +33,8 @@ SC_MODULE(PE_ARRAY) {
 	PE* PE_10_0;	PE* PE_10_1;	PE* PE_10_2;	PE* PE_10_3;	PE* PE_10_4;	PE* PE_10_5;	PE* PE_10_6;	PE* PE_10_7;	PE* PE_10_8;	PE* PE_10_9;	PE* PE_10_10;	PE* PE_10_11;	PE* PE_10_12;	PE* PE_10_13;
 	PE* PE_11_0;	PE* PE_11_1;	PE* PE_11_2;	PE* PE_11_3;	PE* PE_11_4;	PE* PE_11_5;	PE* PE_11_6;	PE* PE_11_7;	PE* PE_11_8;	PE* PE_11_9;	PE* PE_11_10;	PE* PE_11_11;	PE* PE_11_12;	PE* PE_11_13;
 
+	EnergyTracker* tracker;
+
 	SC_CTOR(PE_ARRAY) {
 		//Connect ports
 		PE_0_0 = new PE("PE_0_0");
@@ -46,6 +49,7 @@ SC_MODULE(PE_ARRAY) {
 		PE_0_0->w_in(weight_out_PE[0][0]);
 		PE_0_0->ifmap_in(ifmap_out_PE[0][0]);
 		PE_0_0->ofmap_out(ofmap_out[0][0]);
+		PE_0_0->tracker = tracker;
 
 		PE_1_0 = new PE("PE_1_0");
 		PE_1_0->clk(clk);

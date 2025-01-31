@@ -140,6 +140,7 @@ void GLB::GLB_read_weight(void) {
 						filter[i
 						+ j * filter_height_field * num_filter_field
 						+ k * filter_height_field * num_filter_field * filter_width_field].write(w_rdata.read());
+						tracker->count_DRAM_accesses();
 						wait();
 					}
 				}
@@ -185,6 +186,7 @@ void GLB::GLB_read_ifmap(void) {
 						ifmap[i
 						+ j * ifmap_height
 						+ k * ifmap_height * ifmap_width].write(ifmap_rdata.read());
+						tracker->count_DRAM_accesses();
 						wait();
 					}
 				}
@@ -232,6 +234,7 @@ void GLB::GLB_send_weight(void) {
 								filter[num_height + cnt_filter * filter_height_field + num_units * filter_height_field
 								+ num_column * filter_height_field * num_filter_field * units_field
 								+ channel * filter_height_field * num_filter_field * units_field * filter_width_field].read());
+							tracker->count_GLB_accesses();
 						}
 						wait();
 					}
@@ -310,6 +313,7 @@ void GLB::GLB_send_ifmap(void) {
 							ifmap[num_height
 							+ num_column * ifmap_height_field
 							+ channel * ifmap_height_field * ifmap_width_field].read());
+						tracker->count_GLB_accesses();
 					}
 					wait();
 				}
@@ -404,6 +408,7 @@ void GLB::GLB_ofmap(void) {
 							ofmap_buf[i 
 							+ j * ofmap_height_field
 							+ k * ofmap_height_field * ofmap_width_field].read());
+						tracker->count_DRAM_accesses();
 						wait();
 					}
 				}

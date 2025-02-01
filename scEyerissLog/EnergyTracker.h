@@ -1,7 +1,7 @@
 #ifndef ENERGY_TRACKER_H
 #define ENERGY_TRACKER_H
 
-#include <systemc.h>
+#include <systemc>
 
 SC_MODULE(EnergyTracker) {
     int GLB_access;

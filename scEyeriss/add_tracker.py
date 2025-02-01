@@ -50,7 +50,7 @@ def add_tracker_assignments(input_file_path, output_file_path):
     else:
         indent = ''
 
-    tracker_lines = [f"{indent}{pe}->tracker = tracker;\n" for pe in sorted(pe_names)]
+    tracker_lines = [f"sc_eyeriss_i->pe_array_i->{indent}{pe}->mac_i->tracker = tracker;\n" for pe in sorted(pe_names)]
 
     # Insert tracker assignments before the closing brace
     updated_lines = lines[:closing_brace_index] + tracker_lines + lines[closing_brace_index:]

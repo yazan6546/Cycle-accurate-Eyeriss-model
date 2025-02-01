@@ -87,8 +87,6 @@ SC_MODULE(SC_EYERISS) {
 		config_i->folding_cf(folding_cf);
 		config_i->propass_cf(propass_cf);
 
-		tracker = new EnergyTracker("tracker");
-
 		glb_i = new GLB("glb_i");
 		glb_i->clk(clk);
 		glb_i->rst(rst);
@@ -115,7 +113,6 @@ SC_MODULE(SC_EYERISS) {
 		glb_i->addr_ifmpa_in(addr_ifmpa_in);
 		glb_i->ifmap_rdata(ifmap_rdata);
 		glb_i->in_vld(in_vld);
-		glb_i->tracker = tracker;
 
 		for (int i = 0; i < filter_height; i++) {
 			glb_i->w_wdata[i](w_wdata[i]);
@@ -177,6 +174,9 @@ SC_MODULE(SC_EYERISS) {
 		pe_array_i->layer_cf(layer_cf);
 		pe_array_i->enable(enable);
 		pe_array_i->in_vld_PE(in_vld_PE);
+
+		
+
 		for (int i = 0; i < PE_width; i++) {
 			for (int j = 0; j < PE_length; j++) {
 				pe_array_i->weight_out_PE[j][i](weight_out_PE[j][i]);

@@ -3,12 +3,14 @@
 using namespace std;
 
 #include <systemc>
+
 using namespace sc_core;
 
 #include "Definition.h"
 #include "testbench.h"
 #include "LowEyeriss.h"
 #include "scEyeriss.h"
+#include "EnergyTracker.h"
 
 SC_MODULE(SYSTEM) {
 	sc_clock						clk;
@@ -26,9 +28,12 @@ SC_MODULE(SYSTEM) {
 	TESTBENCH*			tb_i;
 	SC_EYERISS*		    sc_eyeriss_i;
 	sc_trace_file*		tracefile;
+	EnergyTracker* tracker;
 
 	SC_CTOR(SYSTEM) : clk("clk", 10, SC_NS) {
 		//Connect ports
+		tracker = new EnergyTracker	("tracker");
+
 		tb_i = new TESTBENCH("tb_i");
 		tb_i->clk(clk);
 		tb_i->rst(rst);
@@ -41,6 +46,7 @@ SC_MODULE(SYSTEM) {
 		tb_i->ifmap_rdata(ifmap_rdata);
 		tb_i->layer_done(layer_done);
 		tb_i->ofmap_result(ofmap_result);
+		tb_i->tracker = tracker;
 
 		sc_eyeriss_i = new SC_EYERISS("sc_eyeriss_i");
 		sc_eyeriss_i->clk(clk);
@@ -54,6 +60,179 @@ SC_MODULE(SYSTEM) {
 		sc_eyeriss_i->ifmap_rdata(ifmap_rdata);
 		sc_eyeriss_i->layer_done(layer_done);
 		sc_eyeriss_i->ofmap_result(ofmap_result);
+		sc_eyeriss_i->tracker = tracker;
+		sc_eyeriss_i->glb_i->tracker = tracker;
+		sc_eyeriss_i->pe_array_i->tracker = tracker;
+
+		// not very good block of code
+			sc_eyeriss_i->pe_array_i->	PE_0_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_0_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_10_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_11_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_1_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_2_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_3_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_4_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_5_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_6_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_7_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_8_9->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_0->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_1->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_10->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_11->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_12->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_13->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_2->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_3->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_4->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_5->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_6->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_7->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_8->mac_i->tracker = tracker;
+sc_eyeriss_i->pe_array_i->	PE_9_9->mac_i->tracker = tracker;
 
 
 		tracefile = sc_create_vcd_trace_file("Low_Eyeriss");

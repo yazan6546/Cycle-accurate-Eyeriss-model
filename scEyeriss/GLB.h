@@ -68,6 +68,7 @@ SC_MODULE(GLB) {
 		SC_CTHREAD(GLB_ofmap, clk.pos());
 		SC_CTHREAD(psum_check, clk.pos());
 	}
+	
 	void GLB_weight_address(void);
 	void GLB_ifmap_address(void);
 	void GLB_read_weight(void);

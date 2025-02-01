@@ -1,5 +1,6 @@
 #pragma once
 #include <systemc>
+#include "EnergyTracker.h"
 using namespace sc_core;
 using namespace sc_dt;
 
@@ -15,6 +16,8 @@ SC_MODULE(TESTBENCH) {
 	sc_out< sc_int<8>  >		ifmap_rdata;
 	sc_in<    bool	   >		layer_done;
 	sc_in<  sc_uint<12>>		ofmap_result;
+
+	EnergyTracker* tracker;
 
 	SC_CTOR(TESTBENCH) {
 		SC_CTHREAD(cpu_config, clk.pos());

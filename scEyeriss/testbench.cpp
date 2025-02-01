@@ -163,6 +163,8 @@ void TESTBENCH::results(void) {
 				}
 			}
 			sc_stop();
+			
+			tracker->report();
 
 			if (errors == 0)
 				cout << "INFO: Simulation PASSED. " << endl;

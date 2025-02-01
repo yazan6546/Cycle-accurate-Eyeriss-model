@@ -15,8 +15,8 @@ double EnergyTracker::compute_energy() {
 
 
 void EnergyTracker::report() {
-    cout << "Global Buffer Accesses: " << GLB_access << endl;
-    cout << "DRAM Accesses: " << DRAM_access << endl;
-    cout << "MAC Operations: " << mac_operations << endl;
-    cout << "Total Energy Consumption: " << compute_energy() << " units" << endl;
+    std::cout << "Global Buffer Accesses: " << GLB_access << std::endl;
+    std::cout << "DRAM Accesses: " << DRAM_access << std::endl;
+    std::cout << "MAC Operations: " << mac_operations << std::endl;
+    std::cout << "Total Energy Consumption: " << compute_energy() << " units" << std::endl;
 }

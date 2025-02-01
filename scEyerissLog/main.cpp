@@ -418,9 +418,19 @@ int sc_main(int argc, char* argv[]) {
 	cout << "INFO: Elaborating " << simulation_name << endl;
 	top = new SYSTEM("top");
 
-	//SIMULATION PHASE
-	cout << "INFO: Simulating " << simulation_name << " with Pattern: " << pattern_name << endl;
-	sc_start();
+	// Capture the start time
+    sc_time start_time = sc_time_stamp();
+
+    // SIMULATION PHASE
+    cout << "INFO: Simulating " << simulation_name << " with Pattern: " << pattern_name << std::endl;
+    sc_start();
+
+    // Capture the end time
+    sc_time end_time = sc_time_stamp();
+
+    // Calculate the elapsed time
+    sc_time elapsed_time = end_time - start_time;
+	cout << "INFO: Simulation " << simulation_name << " took " << elapsed_time << endl;
 
 	// Post-proccesing
 	cout << "INFO: Post-processing " << simulation_name << endl;
